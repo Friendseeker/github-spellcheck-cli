@@ -7,7 +7,7 @@ const getUsage = require('command-line-usage');
 const fs = require('fs-extra');
 const glob = require('globby');
 const _ = require('lodash');
-const opn = require('opn');
+const open = require('open');
 const path = require('path');
 const prompt = require('prompt-promise');
 const userHome = require('user-home');
@@ -315,7 +315,7 @@ async function go() {
     const contributingGuidelines = await findGithubFile('CONTRIBUTING');
     if (!quiet && contributingGuidelines) {
       console.log('Opening CONTRIBUTING.md...');
-      await opn(`https://github.com/${repoUser}/${repoName}/blob/${baseBranchName}/${contributingGuidelines}`);
+      await open(`https://github.com/${repoUser}/${repoName}/blob/${baseBranchName}/${contributingGuidelines}`);
       console.log();
     }
 
@@ -362,7 +362,7 @@ async function go() {
             if (!createPR) {
               if (quiet) return;
               console.log('Opening the pull request creation page...');
-              await opn(`https://github.com/${userAndRepo}/compare/${baseBranchName}...${repoUser}:${branchName}`);
+              await open(`https://github.com/${userAndRepo}/compare/${baseBranchName}...${repoUser}:${branchName}`);
             } else {
               console.log('Creating a pull request...');
               const [parentRepoUser, parentRepoName] = await parseRepo(userAndRepo);
@@ -380,7 +380,7 @@ async function go() {
                 console.log(`Pull request #${pullRequest.number} created.`);
               } else {
                 console.log(`Pull request #${pullRequest.number} created. Opening in your browser...`);
-                await opn(pullRequest.html_url, { wait: false });
+                await open(pullRequest.html_url, { wait: false });
               }
             }
           },
